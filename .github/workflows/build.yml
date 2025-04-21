@@ -26,13 +26,36 @@ jobs:
 
       - name: Update app info in wails.json
         run: |
-          $wailsJson = Get-Content -Path wails.json | ConvertFrom-Json
-          $wailsJson.info.companyName = "Fitzsixto"
-          $wailsJson.info.productName = "Word Reverser"
-          $wailsJson.info.productVersion = "1.0.0"
-          $wailsJson.info.copyright = "© 2025 Fitzsixto Development"
-          $wailsJson.info.comments = "A modern desktop app for reversing words"
+          Write-Host "Reading wails.json file..."
+          $wailsJson = Get-Content -Path wails.json -Raw | ConvertFrom-Json
+          
+          if (-not (Get-Member -InputObject $wailsJson -Name "info" -MemberType Properties)) {
+            Write-Host "Creating 'info' property as it doesn't exist"
+            Add-Member -InputObject $wailsJson -MemberType NoteProperty -Name "info" -Value ([PSCustomObject]@{})
+          }
+          
+          $properties = @{
+            "companyName" = "Fitzsixto"
+            "productName" = "Word Reverser"
+            "productVersion" = "1.0.0"
+            "copyright" = "© 2025 Fitzsixto Development"
+            "comments" = "A modern desktop app for reversing words"
+          }
+          
+          foreach ($prop in $properties.Keys) {
+            if (-not (Get-Member -InputObject $wailsJson.info -Name $prop -MemberType Properties)) {
+              Write-Host "Creating '$prop' property as it doesn't exist"
+              Add-Member -InputObject $wailsJson.info -MemberType NoteProperty -Name $prop -Value $properties[$prop]
+            } else {
+              Write-Host "Setting existing property '$prop' to '$($properties[$prop])'"
+              $wailsJson.info.$prop = $properties[$prop]
+            }
+          }
+          
           $wailsJson | ConvertTo-Json -Depth 10 | Set-Content -Path wails.json
+          
+          Write-Host "Updated wails.json contents:"
+          Get-Content -Path wails.json
         shell: pwsh
 
       - name: Build Wails App
