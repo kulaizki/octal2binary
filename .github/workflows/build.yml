@@ -17,13 +17,13 @@ jobs:
       fail-fast: false
       matrix:
         build:
-          - name: "word-reverser"
+          - name: "drow-reverser"
             platform: "linux/amd64"
             os: "ubuntu-latest"
-          - name: "word-reverser"
+          - name: "drow-reverser"
             platform: "windows/amd64"
             os: "windows-latest"
-          - name: "word-reverser"
+          - name: "drow-reverser"
             platform: "darwin/universal"
             os: "macos-latest"
 
