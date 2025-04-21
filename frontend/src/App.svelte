@@ -70,17 +70,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow-x: hidden;
+    overflow: auto;
   }
   
   main {
     width: 100%;
     max-width: 100vw;
-    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow-x: hidden;
+    padding: 1rem;
+    box-sizing: border-box;
   }
   
   .container {
