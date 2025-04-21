@@ -1,6 +1,8 @@
 # Word Reverser
 
-> A modern desktop app for reversing the letters in each word while maintaining word order.
+> An app for reversing the letters in each word while maintaining word order.
+
+https://github.com/user-attachments/assets/eac44f16-8da5-4859-8733-efddfbeca1f8
 
 ## Features
 
