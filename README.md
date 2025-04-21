@@ -36,3 +36,11 @@ to this in your browser, and you can call your Go code from devtools.
 ## Building
 
 To build a redistributable, production mode package, use `wails build`.
+
+## Antivirus Detection
+
+Some antivirus programs, including Windows Defender, may flag this application as suspicious. This is a false positive that occurs with many Wails applications. If you encounter this:
+
+1. You can submit a false positive report to Microsoft: https://www.microsoft.com/en-us/wdsi/filesubmission
+2. Temporarily disable your antivirus to install the application
+3. Add an exception for this application in your antivirus software
