@@ -1,8 +1,30 @@
-# README
+# Word Reverser
 
-## About
+> A modern desktop app for reversing the letters in each word while maintaining word order.
 
-This is the official Wails Svelte-TS template.
+## Features
+
+- Reverses each word in a text string letter by letter while keeping word order intact
+- Clean, modern UI with responsive design
+- Real-time text transformation
+- Beautiful gradient styling with smooth animations
+
+## How to Use
+
+1. Enter your text in the input field
+2. Click the "Reverse Words" button
+3. See the reversed text in the result box below
+
+For example:
+- Input: `Hello world`
+- Output: `olleH dlrow`
+
+## Tech Stack
+
+This app is built with:
+- [Wails](https://wails.io/) - Go framework for desktop apps
+- [Svelte](https://svelte.dev/) + TypeScript - Frontend UI
+- Modern CSS - Styling with gradients and animations
 
 ## Live Development
 
