@@ -7,13 +7,18 @@
       resultText = "Please enter some text first";
       return;
     }
+
+    const lines = inputText.split('\n');
     
-    const words = inputText.split(' ');
-    const reversed = words.map(word => {
-      return word.split('').reverse().join('');
+    const processedLines = lines.map(line => {
+      const words = line.split(' ');
+      const reversedWords = words.map(word => {
+        return word.split('').reverse().join('');
+      });
+      return reversedWords.join(' ');
     });
-    
-    resultText = reversed.join(' ');
+
+    resultText = processedLines.join('\n');
   }
 </script>
 
