@@ -1,4 +1,4 @@
-module drow-reverser
+module anbncn-validator
 
 go 1.23
 
