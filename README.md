@@ -1,39 +1,41 @@
-# Word Reverser
+# a<sup>n</sup>b<sup>n</sup>c<sup>n</sup> Validator
 
-> An app for reversing the letters in each word while maintaining word order.
-
-https://github.com/user-attachments/assets/eac44f16-8da5-4859-8733-efddfbeca1f8
+> An app for validating if a string conforms to the language L = {a<sup>n</sup>b<sup>n</sup>c<sup>n</sup> / n ≥ 0}.
 
 ## Features
 
-- Reverses each word in a text string letter by letter while keeping word order intact
-- Clean, modern UI with responsive design
-- Real-time text transformation
-- Beautiful gradient styling with smooth animations
+- Validates input strings against the a<sup>n</sup>b<sup>n</sup>c<sup>n</sup> pattern.
+- Supports the empty string case (where n=0).
+- Provides immediate "YES" or "NO" feedback.
+- Clean, modern UI with responsive design.
 
 ## How to Use
 
-1. Enter your text in the input field
-2. Click the "Reverse Words" button
-3. See the reversed text in the result box below
+1. Enter your string in the input field (e.g., `aaabbbccc`, `abc`, or leave empty for n=0).
+2. Click the "Validate" button.
+3. See the result ("YES" or "NO") in the result box below.
 
 For example:
-- Input: `Hello world`
-- Output: `olleH dlrow`
+- Input: `aaabbbccc`
+- Output: `YES`
+
+- Input: `aabbc`
+- Output: `NO`
+
+- Input: `` (empty string)
+- Output: `YES`
 
 ## Tech Stack
 
 This app is built with:
-- [Wails](https://wails.io/) - Go framework for desktop apps
-- [Svelte](https://svelte.dev/) + TypeScript - Frontend UI
-- Modern CSS - Styling with gradients and animations
+- [Wails](https://wails.io/) - Go framework for desktop apps (provides the application shell).
+- [Svelte](https://svelte.dev/) + TypeScript - Frontend UI and core validation logic.
+- Modern CSS - Styling.
 
 ## Live Development
 
 To run in live development mode, run `wails dev` in the project directory. This will run a Vite development
-server that will provide very fast hot reload of your frontend changes. If you want to develop in a browser
-and have access to your Go methods, there is also a dev server that runs on http://localhost:34115. Connect
-to this in your browser, and you can call your Go code from devtools.
+server that will provide very fast hot reload of your frontend changes.
 
 ## Building
 
