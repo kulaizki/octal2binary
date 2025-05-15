@@ -1,58 +1,94 @@
 <script lang="ts">
-  let inputText: string = "";
-  let resultText: string = "Enter text above and click 'Reverse Words' to see the result";
 
-  function reverseWords(): void {
-    if (!inputText) {
-      resultText = "Please enter some text first";
+  let inputText: string = "";
+  let resultText: string = "Enter a string (e.g., aaabbbccc) and click 'Validate'";
+
+  function validateCurrentString(): void { 
+    if (typeof inputText !== 'string') {
+        resultText = "Invalid input type.";
       return;
     }
 
-    const lines = inputText.split('\n');
-    
-    const processedLines = lines.map(line => {
-      const words = line.split(' ');
-      const reversedWords = words.map(word => {
-        return word.split('').reverse().join('');
-      });
-      return reversedWords.join(' ');
-    });
+    const s = inputText;
+    if (s === "") {
+      resultText = "YES"; 
+      return;
+    }
 
-    resultText = processedLines.join('\n');
+    // Check for invalid characters before length checks for efficiency
+    const allowedPattern = /^[abc]*$/;
+    if (!allowedPattern.test(s)) {
+        resultText = "NO"; // Contains characters other than a, b, c
+        return;
+    }
+
+    const n = s.length;
+    if (n % 3 !== 0) {
+      resultText = "NO";
+      return;
+    }
+
+    const count = n / 3;
+
+    // Check for 'a's
+    for (let i = 0; i < count; i++) {
+      if (s[i] !== 'a') {
+        resultText = "NO";
+        return;
+      }
+    }
+
+    // Check for 'b's
+    for (let i = count; i < 2 * count; i++) {
+      if (s[i] !== 'b') {
+        resultText = "NO";
+        return;
+      }
+    }
+
+    // Check for 'c's
+    for (let i = 2 * count; i < 3 * count; i++) {
+      if (s[i] !== 'c') {
+        resultText = "NO";
+        return;
+      }
+    }
+    
+    resultText = "YES";
   }
 </script>
 
 <main>
   <div class="container">
     <div class="app-header">
-      <h1>Word Reverser</h1>
-      <p class="subtitle">Reverse the letters in each word while maintaining word order</p>
+      <h1>a<sup>n</sup>b<sup>n</sup>c<sup>n</sup> Validator</h1>
+      <p class="subtitle">Checks if a string matches the a<sup>n</sup>b<sup>n</sup>c<sup>n</sup> pattern (n ≥ 0)</p>
     </div>
     
     <div class="card">
       <div class="input-section">
-        <label for="input-text">Input Text</label>
+        <label for="input-text">Input String</label>
         <textarea 
           id="input-text"
           bind:value={inputText} 
-          placeholder="Type your text here..."
+          placeholder="e.g., aaabbbccc, abc, or empty for n=0"
           rows="4"
         ></textarea>
       </div>
       
-      <button class="hover:cursor-pointer reverse-btn" on:click={reverseWords}>
-        <span>Reverse Words</span>
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3L21 7L17 11"></path><path d="M21 7H13C10.2386 7 8 9.23858 8 12V12C8 14.7614 5.76142 17 3 17H3"></path></svg>
+      <button class="hover:cursor-pointer reverse-btn" on:click={validateCurrentString}>
+        <span>Validate</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>
       </button>
       
       <div class="result-section">
-        <label for="result-text">Result</label>
+        <label for="result-text">Result (Y/N)</label>
         <div id="result-text" class="result-box">{resultText}</div>
       </div>
     </div>
     
     <div class="attribution">
-      <p>Built with Svelte + Wails by <span class="name-gradient">Fitzsixto</span></p>
+      <p>Validator for L = &lbrace;a<sup>n</sup>b<sup>n</sup>c<sup>n</sup> / n &ge; 0&rbrace;</p>
     </div>
   </div>
 </main>
@@ -100,7 +136,7 @@
   }
 
   h1 {
-    font-size: 2.5rem;
+    font-size: 2.2rem; /* Adjusted for potentially longer title */
     margin: 0;
     background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
     -webkit-background-clip: text;
@@ -162,7 +198,8 @@
     color: rgba(255, 255, 255, 0.5);
   }
 
-  .reverse-btn {
+  /* Renamed class for clarity, though not strictly necessary */
+  .reverse-btn { 
     background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
     color: #1a1a2e;
     border: none;
@@ -189,20 +226,26 @@
   .reverse-btn:active {
     transform: translateY(0);
   }
-
+  
   .result-box {
     width: 100%;
-    min-height: 80px;
+    min-height: 80px; /* Increased min-height slightly */
     max-height: 200px;
     padding: 1rem;
     border-radius: 8px;
     background-color: rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.2);
     color: #fff;
-    white-space: pre-wrap;
+    white-space: pre-wrap; /* Ensures YES/NO are not broken */
     word-break: break-word;
     box-sizing: border-box;
     overflow-y: auto;
+    text-align: center; /* Center YES/NO result */
+    font-size: 1.5rem; /* Make YES/NO more prominent */
+    font-weight: bold;
+    display: flex; /* For vertical centering of Y/N */
+    justify-content: center;
+    align-items: center;
   }
 
   .attribution {
@@ -211,6 +254,12 @@
     color: rgba(255, 255, 255, 0.5);
     text-align: center;
   }
+  
+  .attribution sup { /* Style for superscript in attribution */
+    font-size: 0.6em;
+    vertical-align: super;
+  }
+
 
   .name-gradient {
     background: linear-gradient(to bottom, #87CEEB 0%, #1E90FF 100%);
@@ -231,7 +280,10 @@
     }
     
     h1 {
-      font-size: 2rem;
+      font-size: 1.8rem; /* Adjusted for potentially longer title */
+    }
+    .result-box {
+      font-size: 1.2rem; /* Adjust for smaller screens */
     }
   }
 </style>
