@@ -2,7 +2,8 @@ package main
 
 import (
 	"context"
-	"strings"
+	"fmt"
+	"strconv"
 )
 
 // App struct
@@ -21,53 +22,43 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
-// ValidateString checks if the input string conforms to the pattern a^n b^n c^n.
-func (a *App) ValidateString(input string) string {
-	if input == "" {
-		return "Y" // n = 0 case
+// OctalToBinary converts an octal string to a binary string.
+func (a *App) OctalToBinary(octalString string) (string, error) {
+	if octalString == "" {
+		return "", fmt.Errorf("input cannot be empty")
 	}
 
-	n := len(input)
-	if n%3 != 0 {
-		return "N"
-	}
-
-	count := n / 3
-
-	// Check for 'a's
-	for i := 0; i < count; i++ {
-		if input[i] != 'a' {
-			return "N"
+	// Handle the special case for "0" or "00..."
+	isZero := true
+	for _, r := range octalString {
+		if r != '0' {
+			isZero = false
+			break
 		}
 	}
-
-	// Check for 'b's
-	for i := count; i < 2*count; i++ {
-		if input[i] != 'b' {
-			return "N"
-		}
+	if isZero {
+		return "0", nil
 	}
 
-	// Check for 'c's
-	for i := 2 * count; i < 3*count; i++ {
-		if input[i] != 'c' {
-			return "N"
+	// Parse the octal string to an integer (base 8).
+	// The 0 prefix for octal is handled by ParseInt if the base is 0 or 8.
+	// Here we explicitly use base 8.
+	// strconv.ParseInt can handle leading zeros like "00507".
+	decimalValue, err := strconv.ParseInt(octalString, 8, 64)
+	if err != nil {
+		// Check if the error is due to invalid characters
+		for _, char := range octalString {
+			if char < '0' || char > '7' {
+				return "", fmt.Errorf("invalid octal string: contains non-octal character '%c'", char)
+			}
 		}
+		// If it's another parsing error (e.g. out of range, though less likely for typical inputs)
+		return "", fmt.Errorf("invalid octal string: %w", err)
 	}
 
-	// Check if there are any other characters after the c's
-	// This is implicitly handled by the n%3 check and the loop bounds,
-	// but an explicit check for other characters in the string can be added for robustness
-	// if needed, e.g. by checking allowed characters.
-	// For now, the provided logic covers the a^n b^n c^n structure.
+	// Convert the integer to a binary string.
+	// strconv.FormatInt does not produce leading zeros for non-zero numbers.
+	binaryString := strconv.FormatInt(decimalValue, 2)
 
-	// A more robust check for invalid characters:
-	allowedChars := "abc"
-	for _, char := range input {
-		if !strings.ContainsRune(allowedChars, char) {
-			return "N" // Found a character not in {a, b, c}
-		}
-	}
-
-	return "Y"
+	return binaryString, nil
 }

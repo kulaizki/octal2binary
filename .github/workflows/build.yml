@@ -17,13 +17,13 @@ jobs:
       fail-fast: false
       matrix:
         build:
-          - name: "anbncn-validator"
+          - name: "octal2binary"
             platform: "linux/amd64"
             os: "ubuntu-latest"
-          - name: "anbncn-validator"
+          - name: "octal2binary"
             platform: "windows/amd64"
             os: "windows-latest"
-          - name: "anbncn-validator"
+          - name: "octal2binary"
             platform: "darwin/universal"
             os: "macos-latest"
 

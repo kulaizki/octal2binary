@@ -1,4 +1,4 @@
-module anbncn-validator
+module octal2binary
 
 go 1.23
 
